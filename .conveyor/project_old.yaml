@@ -1,9 +1,9 @@
 docker:
     path: .
-id: d4772aa0-3ddb-49c2-abc9-3c1ef4b3343f
+id: f6f49228-b451-46e8-a27e-309862803fd0
 ide:
     filename: ide.yaml
-name: capstonellm-an
+name: capstone-test
 resources:
     path: resources
 streaming:
@@ -12,4 +12,4 @@ template: ""
 version: "0.3"
 workflows:
     path: dags
-    version: "3"
+    version: "2"

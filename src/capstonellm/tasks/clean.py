@@ -7,13 +7,10 @@ from pyspark.sql import SparkSession
 from pyspark.sql import functions as sf
 from capstonellm.common.catalog import llm_bucket
 from capstonellm.common.spark import ClosableSparkSession
-from dotenv import load_dotenv  #add to 
 
 logger = logging.getLogger(__name__)
 
-load_dotenv()
-access_key = os.getenv("AWS_ACCESS_KEY_ID")
-secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+
 
 def clean(spark: SparkSession, environment: str, tag: str):
     #input_path = "//raw/"
