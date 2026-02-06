@@ -1,11 +1,19 @@
 import argparse
 import logging
+
+import os
+
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as sf
 from capstonellm.common.catalog import llm_bucket
 from capstonellm.common.spark import ClosableSparkSession
+from dotenv import load_dotenv  #add to 
 
 logger = logging.getLogger(__name__)
+
+load_dotenv()
+access_key = os.getenv("AWS_ACCESS_KEY_ID")
+secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
 
 def clean(spark: SparkSession, environment: str, tag: str):
     #input_path = "//raw/"
@@ -14,8 +22,11 @@ def clean(spark: SparkSession, environment: str, tag: str):
     #output_path = f"s3a://{llm_bucket}/cleaned/{tag}"
 
     #logger.info(f"Reading raw data from {input_path}")
-    df_answers = spark.read.json("./raw/answers.json")
-    df_questions = spark.read.json("./raw/questions.json")
+
+
+
+    df_answers = spark.read.json(f"s3a://{llm_bucket}/input/{tag}/answers.json")
+    df_questions = spark.read.json(f"s3a://{llm_bucket}/input/{tag}/questions.json")
     #df_answers.printSchema()
     #df_questions.printSchema()
 
@@ -39,7 +50,8 @@ def clean(spark: SparkSession, environment: str, tag: str):
     df_joined.show()
 
     # #logger.info(f"Writing cleaned data to {output_path}")
-    df_joined.write.mode("overwrite").json("./cleaned/combined.json")
+    partition_joined = df_joined.count()
+    df_joined.repartition(partition_joined).write.mode("overwrite").json(f"s3a://{llm_bucket}/cleaned/an/{tag}/")
 
 
 def main():

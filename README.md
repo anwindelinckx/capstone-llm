@@ -127,6 +127,8 @@ We start with a local installation of Airflow, you can use the `docker-compose.y
 ### Your task
 
 - package the python code in a Dockerfile. If you used the provided scaffolding, this should be easy. Take a look at the Dockerfile and make sure you understand everything
+  Solution: docker build . -t myimage  > naam geven zodat het makkelijker is om terug te vinden
+            docker run  -e AWS_ACCESS_KEY=xxx AWS_SECRET_ACCESS_KEY=xxx myimage > options first, then image name
 - create an Airflow dag with one task (clean) that will run your clean job using the [DockerOperator](https://airflow.apache.org/docs/apache-airflow/1.10.9/_api/airflow/operators/docker_operator/index.html).
   In order to access s3, you will have to pass your credentials to the docker container.
 
